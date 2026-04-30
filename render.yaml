@@ -1,0 +1,25 @@
+# Render blueprint: New Blueprint → connect repo.
+# Set sync: false secrets in the Render dashboard before relying on production.
+# https://render.com/docs/free
+
+services:
+  - type: web
+    name: mindmend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: BASE_URL
+        sync: false
