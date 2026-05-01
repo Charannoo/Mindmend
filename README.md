@@ -4,7 +4,6 @@
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-mindmend--w8f7.onrender.com-blue?style=for-the-badge)](https://mindmend-w8f7.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Charannoo/Mindmend-black?style=for-the-badge&logo=github)](https://github.com/Charannoo/Mindmend)
-[![Deploy to Render](https://img.shields.io/badge/Deploy-Render-46e3b7?style=for-the-badge&logo=render)](https://render.com/deploy)
 
 ---
 
@@ -28,20 +27,21 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **HTML5 / CSS3 / JavaScript** - Pure vanilla JS with modern features
 - **Tailwind CSS** - Utility-first CSS framework (CDN)
 - **Clerk** - Authentication & user management
 - **Phosphor Icons** - Beautiful icon set
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
-- **Supabase** - PostgreSQL database with real-time capabilities
+- **Supabase** - PostgreSQL database
 
-### DevOps & APIs
-- **Render** - Cloud hosting platform (free tier)
+### APIs
+
 - **OpenRouter** - AI affirmation generation
-- **Docker** - Containerization for consistent deployments
 
 ---
 
@@ -51,10 +51,8 @@ Before you begin, ensure you have:
 
 - **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
 - **Git** - [Download here](https://git-scm.com/)
-- **GitHub Account** - [Sign up here](https://github.com/)
 - **Supabase Account** - [Sign up here](https://supabase.com/) (free tier works)
 - **Clerk Account** - [Sign up here](https://clerk.com/) (free tier works)
-- **Render Account** - [Sign up here](https://render.com/) (free tier works)
 
 ---
 
@@ -116,47 +114,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser!
 
 ---
 
-## 🌐 Deployment to Render
-
-### One-Click Deploy
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Charannoo/Mindmend)
-
-### Manual Deployment
-
-1. **Push to GitHub** (already done ✓)
-   ```bash
-   git add .
-   git commit -m "Ready for deployment"
-   git push origin main
-   ```
-
-2. **Connect to Render**
-   - Go to [dashboard.render.com](https://dashboard.render.com)
-   - Click **"New +"** → **"Blueprint"**
-   - Connect your GitHub account
-   - Select `Charannoo/Mindmend` repository
-   - Render auto-detects `render.yaml`
-
-3. **Set Environment Variables** in Render dashboard:
-
-   | Variable | Value |
-   |----------|-------|
-   | `SUPABASE_URL` | Your Supabase project URL |
-   | `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key |
-   | `CLERK_SECRET_KEY` | Your Clerk secret key |
-   | `OPENROUTER_API_KEY` | Your OpenRouter API key (optional) |
-   | `BASE_URL` | `https://your-app.onrender.com` (after first deploy) |
-
-4. **Deploy!** Click **"Apply Blueprint"** and wait 5-10 minutes
-
-5. **Update Clerk Settings**
-   - Go to [Clerk Dashboard](https://dashboard.clerk.com)
-   - Add your Render URL to **Allowed Origins**
-   - Update **Home URL** and **Redirect URLs**
-
----
-
 ## 📂 Project Structure
 
 ```
@@ -177,8 +134,7 @@ MindMend/
 ├── supabase/
 │   └── schema.sql             # Database schema
 ├── .env.example               # Environment template
-├── render.yaml                # Render deployment config
-├── Dockerfile                 # Docker container config
+├── Dockerfile
 └── README.md                  # This file
 ```
 
@@ -193,40 +149,42 @@ MindMend/
 | `CLERK_PUBLISHABLE_KEY` | Clerk publishable key (frontend) | ✅ Yes |
 | `CLERK_SECRET_KEY` | Clerk secret key (backend) | ✅ Yes |
 | `OPENROUTER_API_KEY` | OpenRouter API key for AI affirmations | ❌ Optional |
-| `BASE_URL` | Public URL of your app | ✅ Production |
+| `BASE_URL` | Public URL of your app when deployed | ⚙️ Deploy only |
 | `PORT` | Server port (default: 3000) | ❌ Optional |
+
+See `DEPLOYMENT.md` for hosting notes.
 
 ---
 
 ## 📸 Screenshots
 
 ### Login Page
-> Modern sign-in interface with Clerk authentication
+
+Modern sign-in interface with Clerk authentication.
 
 ### Journal & Mood Tracker
-> Intuitive interface for tracking moods and journaling
+
+Intuitive interface for tracking moods and journaling.
 
 ### Admin Dashboard
-> Manage users and view all journal entries
+
+Manage users and view all journal entries.
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### "Database unavailable" error
+
 - Verify Supabase URL and service role key in `.env`
 - Ensure `supabase/schema.sql` has been run in Supabase SQL Editor
 - Check if tables `user_profiles` and `journal_entries` exist
 
 ### Clerk authentication not working
+
 - Verify publishable key in HTML files matches your Clerk app
 - Add your domain to Clerk's **Allowed Origins**
 - Check browser console (F12) for errors
-
-### Render deployment fails
-- Check all environment variables are set correctly
-- View deploy logs in Render dashboard
-- Ensure `render.yaml` is in the repository root
 
 ---
 
@@ -259,7 +217,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Supabase Dashboard](https://supabase.com/dashboard)
 - [Clerk Dashboard](https://dashboard.clerk.com)
-- [Render Dashboard](https://dashboard.render.com)
 - [OpenRouter](https://openrouter.ai)
 
 ---

@@ -1,48 +1,38 @@
-# Deploy MindMend (free Supabase + Render)
+# Hosting MindMend
 
-The app uses **Supabase (PostgreSQL)** on the free tier—no MongoDB.
+The app uses **Supabase (PostgreSQL)** for data. The server is a single **Node + Express** process that also serves the `Frontend` static files.
 
 ## 1. Supabase (database)
 
-1. Create a project at [supabase.com](https://supabase.com/dashboard) (free includes a reasonable DB size for this app).
+1. Create a project at [supabase.com](https://supabase.com/dashboard) (free tier is fine for this app).
 2. Open **Project Settings → API** and copy:
-   - **Project URL** → use as `SUPABASE_URL`
-   - **service_role** key (**secret**) → use as `SUPABASE_SERVICE_ROLE_KEY`
-   - **Never** expose the service role key in Frontend code or public repos.
-3. Open **SQL Editor** → paste the contents of **`supabase/schema.sql`** → **Run**.
-4. Tables **`user_profiles`** and **`journal_entries`** must exist before the API can save users/entries.
+   - **Project URL** → `SUPABASE_URL`
+   - **service_role** key (**secret**) → `SUPABASE_SERVICE_ROLE_KEY`
+   - **Never** put the service role key in the browser or a public repo.
+3. Open **SQL Editor** → paste **`supabase/schema.sql`** → **Run**.
+4. Tables **`user_profiles`** and **`journal_entries`** must exist before the API can save data.
 
-## 2. Local `.env`
+## 2. Environment variables
 
-Copy `.env.example` to `.env` and set at least:
+Set at least:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `CLERK_SECRET_KEY`
-- Clerk publishable keys in `Frontend/login.html`, `index.html`, `profile.html`, `admin.html` (or your production keys + allowed domains in Clerk).
+- `NODE_ENV=production` when hosted
+- `BASE_URL` = your public site URL (for OAuth-style redirects if you use them)
+- `OPENROUTER_API_KEY` (optional; local affirmations work without it)
 
-## 3. Deploy on Render
+Clerk publishable keys live in the HTML files under `Frontend/` (or use your production keys and allow your domain in the Clerk dashboard).
 
-1. Push this repo to GitHub/GitLab.
-2. **Render → New Blueprint** (or Web Service → Docker): root = folder containing `Dockerfile`.
-3. Environment variables:
+## 3. Run in production
 
-| Variable | Notes |
-|---------|--------|
-| `SUPABASE_URL` | From Supabase dashboard |
-| `SUPABASE_SERVICE_ROLE_KEY` | service_role (**secret**) |
-| `CLERK_SECRET_KEY` | Clerk dashboard |
-| `NODE_ENV` | `production` |
-| `BASE_URL` | After deploy: `https://<your-service>.onrender.com` |
-| `OPENROUTER_API_KEY` | Optional |
-
-4. In **Clerk**, add your Render URL to **allowed origins** and **redirect URLs** as in the earlier setup.
+- **Docker:** build from the repo root `Dockerfile`, pass the env vars at run time.
+- **Any Node host:** `cd Backend && npm ci --omit=dev && node server.js` with the same env vars.
 
 ## 4. Checks
 
-- `GET /health` → `"connected": true` when Supabase is reachable and tables exist.
+- `GET /health` should show `"connected": true` when Supabase is reachable and tables exist.
 - Sign in, save a journal entry, confirm it appears after refresh.
 
-**Note:** Data that lived in MongoDB is **not** migrated; this stack starts fresh in Postgres.
-
-Render’s free tier may **sleep** the service; the first request after idle can take ~30–60 seconds.
+**Note:** Old MongoDB data is **not** migrated; this stack uses Postgres in Supabase only.
